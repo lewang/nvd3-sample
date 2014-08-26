@@ -2,13 +2,6 @@ function Nvd3Graph ( ) {
   var svg,
       chart;
 
-  var initialize = function ( ) {
-    setupSvg();
-    setupChart();
-    renderChart();
-    addEvents();
-  };
-
   var generateData = function ( ) {
     var numberOfPoints = 20,
         graphData = [],
@@ -52,10 +45,11 @@ function Nvd3Graph ( ) {
     });
     svg.datum( generateData() );
     svg.transition().duration(500);
+    self.svg = svg;
   };
 
   var setupChart = function ( ) {
-    chart = nv.models.lineChart()
+    chart = nv.models.lineChart();
     chart.options({
       x: getX,
       y: getY,
@@ -67,12 +61,19 @@ function Nvd3Graph ( ) {
       rightAlignYAxis: false,
     });
 
+    chart.forceY([0]);
+
     chart.xAxis
       .tickFormat(xAxisFormatter)
       .axisLabel("Days since it happened");
     chart.yAxis
       .tickFormat(yAxisFormatter)
-      .axisLabel("Calls per day");
+      .axisLabel("Calls per day")
+      .tickFormat(function (val) {
+        return "foo  bar bas z " + val
+      });
+
+    self.chart = chart;
   };
 
   var renderChart = function ( ) {
@@ -115,14 +116,19 @@ function Nvd3Graph ( ) {
     console.log("you moused over the legend");
   };
 
-  return {
-    initialize : initialize
+  this.initialize = function () {
+    setupSvg();
+    setupChart();
+    renderChart();
+    addEvents();
+    return this.chart;
   };
+
 }
 
 var myCallback = function ( ) {
   console.log("addGraph callback triggered");
 };
 
-var graph = new Nvd3Graph
-nv.addGraph(graph.initialize, myCallback)
+var graph = new Nvd3Graph();
+nv.addGraph(graph.initialize, myCallback);
