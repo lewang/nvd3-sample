@@ -109,7 +109,7 @@ function Nvd3Graph ( ) {
 
   var stateChangeCallback = function ( ) {
     console.log("state of the chart changed");
-    console.log(arguments)
+    console.log(arguments);
   };
 
   var legendMouseoverCallback = function ( ) {
