@@ -1,6 +1,7 @@
 function Nvd3Graph ( ) {
   var svg,
-      chart;
+      chart,
+      self = this;
 
   var generateData = function ( ) {
     var numberOfPoints = 20,
@@ -58,9 +59,12 @@ function Nvd3Graph ( ) {
       showLegend: true,
       showXAxis: true,
       showYAxis: true,
-      rightAlignYAxis: false,
+      rightAlignYAxis: false
     });
 
+    //// test setting margins
+
+    // chart.margin({top:100,bottom:100,left:100,right:100});
     chart.forceY([0]);
 
     chart.xAxis
